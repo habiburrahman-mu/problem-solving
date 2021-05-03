@@ -10,12 +10,7 @@ for i in range(0, len(st)):
 		count = 1
 		last_ch = st[i]
 
-# print(count)
-
 if(count>=7):
 	print('YES')
 else:
 	print('NO')
-
-
-#00000001
