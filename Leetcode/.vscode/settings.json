@@ -2,6 +2,10 @@
     "files.associations": {
         "*.ipynb": "jupyter",
         "ostream": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "cstdlib": "cpp",
+        "list": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp"
     }
 }
