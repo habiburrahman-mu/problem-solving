@@ -24,11 +24,11 @@ public:
             hMap[val]++;
         }
 
-        unordered_set<int> uniqueOccurrences;
+        unordered_set<int> uniqueOccur;
 
         for (pair<int, int> it : hMap)
         {
-            if (!uniqueOccurrences.insert(it.second).second)
+            if (!uniqueOccur.insert(it.second).second)
             {
                 return false;
             }
