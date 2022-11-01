@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <set>
+#include <unordered_set>
 
 using namespace std;
 
@@ -16,31 +17,16 @@ class Solution
 public:
     vector<int> intersection(vector<int> &nums1, vector<int> &nums2)
     {
-        unordered_map<int, int> mp1;
-        unordered_map<int, int> mp2;
-
-        set<int> st;
-
+        unordered_set<int> st(nums1.begin(), nums1.end());
         vector<int> result;
-
-        for (int val : nums1) // O(N)
+        for (int value : nums2)
         {
-            mp1[val]++; // O(1)
-        }
-
-        for (int val : nums2) // O(NlogN)
-        {
-            if (mp1[val] > 0) // O(1)
+            if (st.count(value))
             {
-                st.insert(val); // O(logN)
+                result.push_back(value);
+                st.erase(value);
             }
         }
-
-        for (int val : st)
-        { // O(N)
-            result.push_back(val);
-        }
-
         return result;
     }
 };
