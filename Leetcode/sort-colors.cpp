@@ -8,18 +8,24 @@ class Solution
 public:
     void sortColors(vector<int> &nums)
     {
-        vector<int> count{0, 0, 0};
-        for (int value : nums)
-        {
-            count[value]++;
-        }
+        int low = 0, mid = 0, high = nums.size() - 1;
 
-        int index = 0;
-        for (int i = 0; i < count.size(); i++)
+        while (mid <= high)
         {
-            for (int j = 0; j < count[i]; j++)
+            if (nums[mid] == 0)
             {
-                nums[index++] = i;
+                swap(nums[low], nums[mid]);
+                low++;
+                mid++;
+            }
+            else if (nums[mid] == 1)
+            {
+                mid++;
+            }
+            else if (nums[mid] == 2)
+            {
+                swap(nums[mid], nums[high]);
+                high--;
             }
         }
     }
@@ -34,5 +40,4 @@ int main()
     {
         cout << val << " ";
     }
-    // cout << sol.findDuplicates(n) << endl;
 }
