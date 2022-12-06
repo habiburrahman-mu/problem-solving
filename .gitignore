@@ -1,4 +1,12 @@
+*
+!/**/
+!*.*
 Leetcode/test-ignore.ts
 Leetcode/*.exe
 Leetcode/test.cpp
 Leetcode/.vscode/tasks.json
+test.cpp
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/settings.json
+Leetcode/tempCodeRunnerFile.cpp
