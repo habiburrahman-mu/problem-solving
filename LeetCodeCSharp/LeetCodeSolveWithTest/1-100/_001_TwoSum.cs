@@ -17,14 +17,10 @@ namespace LeetCodeSolveWithTest
         public void _001_TwoSum_Test(int[] nums, int target, int[] expected)
         {
             // Arrange
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            var sut = TwoSum;
 
             // Act
-            var result = TwoSum(nums, target);
-
-            stopwatch.Stop();
-            Console.WriteLine($"Execution Time: {stopwatch.ElapsedMilliseconds} ms");
+            var result = sut(nums, target);
 
             // Assert
             Assert.Equal(expected, result);
