@@ -6,14 +6,19 @@ namespace LeetCodeSolveWithTest
     {
         public int[] TwoSum(int[] nums, int target)
         {
-            for (int i = 0; i < nums.Length - 1; i++)
+            Dictionary<int, int> complementIndex = new();
+            for (int i = 0; i < nums.Length; i++)
             {
-                for (int j = i + 1; j < nums.Length; j++)
+                var complement = target - nums[i];
+
+                if (complementIndex.ContainsKey(complement))
                 {
-                    if (target == nums[i] + nums[j])
-                        return new int[] { i, j };
+                    return new[] { complementIndex[complement], i};
                 }
+
+                complementIndex[nums[i]] = i;
             }
+
             return new int[] { };
         }
 
