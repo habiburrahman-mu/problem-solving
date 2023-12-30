@@ -10,3 +10,6 @@ test.cpp
 .vscode/launch.json
 .vscode/settings.json
 Leetcode/tempCodeRunnerFile.cpp
+/LeetCodeCSharp/.vs
+/LeetCodeCSharp/LeetCodeSolveWithTest/obj
+/LeetCodeCSharp/LeetCodeSolveWithTest/bin/Debug/net8.0
