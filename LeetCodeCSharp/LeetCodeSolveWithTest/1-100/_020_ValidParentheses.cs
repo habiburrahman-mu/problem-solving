@@ -41,9 +41,9 @@ namespace LeetCodeSolveWithTest
 
 
         [Theory]
-        //[InlineData("()", true)]
+        [InlineData("()", true)]
         [InlineData("()[]{}", true)]
-        //[InlineData("(]", false)]
+        [InlineData("(]", false)]
         public void _020_ValidParentheses_Test(string s, bool expected)
         {
             // Arrange
@@ -57,3 +57,4 @@ namespace LeetCodeSolveWithTest
         }
     }
 }
+
