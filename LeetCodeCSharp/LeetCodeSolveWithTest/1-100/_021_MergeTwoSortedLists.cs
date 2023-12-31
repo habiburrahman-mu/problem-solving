@@ -35,13 +35,7 @@
                 current = current.next;
             }
 
-            if(list1 != null)
-            {
-                current.next = list1;
-            } else
-            {
-                current.next = list2;
-            }
+            current.next = list1 ?? list2;
 
             return dummyHead.next;
         }
