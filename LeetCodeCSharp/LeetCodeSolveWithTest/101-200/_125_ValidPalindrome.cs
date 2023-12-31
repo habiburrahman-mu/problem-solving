@@ -4,7 +4,8 @@
     {
         public bool IsPalindrome(string s)
         {
-            throw new NotImplementedException();
+            var clean = s.ToLower().Where(char.IsLetterOrDigit);
+            return clean.Reverse().SequenceEqual(clean);
         }
 
         [Theory]
@@ -12,13 +13,13 @@
         [InlineData("race a car", false)]
         [InlineData(" ", true)]
 
-        public void _125_ValidPalindrome_Test(string prices, bool expected)
+        public void _125_ValidPalindrome_Test(string s, bool expected)
         {
             // Arrange
-            var sut = MaxProfit;
+            var sut = IsPalindrome;
 
             // Act
-            var result = sut(prices);
+            var result = sut(s);
 
             // Assert
             Assert.Equal(expected, result);
