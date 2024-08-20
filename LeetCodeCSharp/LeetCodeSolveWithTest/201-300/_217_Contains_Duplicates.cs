@@ -10,14 +10,8 @@ namespace LeetCodeSolveWithTest._201_300
     {
         public bool ContainsDuplicate(int[] nums)
         {
-            Dictionary<int, int> hMap = new();
-            foreach (int num in nums)
-            {
-                if (hMap.ContainsKey(num))
-                    return true;
-                hMap.Add(num, 1);
-            }
-            return false;
+            HashSet<int> visited = new HashSet<int>(nums);
+            return visited.Count != nums.Length;
         }
 
         [Theory]
