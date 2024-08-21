@@ -4,8 +4,23 @@
     {
         public bool IsPalindrome(string s)
         {
-            var clean = s.ToLower().Where(char.IsLetterOrDigit);
-            return clean.Reverse().SequenceEqual(clean);
+            var left = 0;
+            var right = s.Length - 1;
+            while (left < right)
+            {
+                if (!char.IsAsciiLetterOrDigit(s[left]))
+                    left++;
+                else if (!char.IsAsciiLetterOrDigit(s[right]))
+                    right--;
+                else
+                {
+                    if (char.ToLower(s[left]) != char.ToLower(s[right]))
+                        return false;
+                    left++;
+                    right--;
+                }
+            }
+            return true;
         }
 
         [Theory]
