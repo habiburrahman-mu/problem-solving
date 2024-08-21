@@ -4,20 +4,20 @@
     {
         public int MaxProfit(int[] prices)
         {
-            int min = prices[0];
+            int cheapest = prices[0];
             int maxProfit = 0;
-            for (int i = 1; i < prices.Length; i++)
+            for(int i = 1; i < prices.Length; i++)
             {
-                if (prices[i] > min)
+                if(prices[i] < cheapest)
                 {
-                    int profit = prices[i] - min;
-                    maxProfit = Math.Max(profit, maxProfit);
-                } else
+                    cheapest = prices[i];
+                } 
+                else
                 {
-                    min = prices[i];
+                    int profit = prices[i] - cheapest;
+                    maxProfit = Math.Max(maxProfit, profit);
                 }
             }
-
             return maxProfit;
         }
 
