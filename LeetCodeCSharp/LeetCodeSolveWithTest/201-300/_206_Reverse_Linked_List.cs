@@ -16,7 +16,20 @@
 
         private ListNode ReverseList(ListNode head)
         {
-            return new ListNode();
+            var current = head;
+            ListNode? next = null;
+            ListNode? prev = null;
+
+            while(current != null)
+            {
+                next = current.next;
+                current.next = prev;
+                
+                prev = current;
+                current = next;
+            }
+
+            return prev;
         }
 
         [Theory]
