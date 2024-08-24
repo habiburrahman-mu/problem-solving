@@ -17,13 +17,46 @@
 
         private TreeNode InvertTree(TreeNode root)
         {
-            if(root == null)
+            return InvertTreeIterative(root);
+        }
+
+        private TreeNode InvertTreeIterative(TreeNode root)
+        {
+            // using BFS
+            if (root == null)
+                return null;
+
+            Queue<TreeNode> queue = new();
+            queue.Enqueue(root);
+
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+                if(node != null)
+                {
+                    var buffer = node.left;
+                    node.left = node.right;
+                    node.right = buffer;
+
+                    if (node.left != null)
+                        queue.Enqueue(node.left);
+                    if(node.right != null)
+                        queue.Enqueue(node.right);
+                }
+            }
+
+            return root;
+        }
+
+        private TreeNode InvertTreeRecursive(TreeNode root)
+        {
+            if (root == null)
                 return null;
 
             var temp = root.left;
             root.left = InvertTree(root.right);
             root.right = InvertTree(temp);
-            
+
             return root;
         }
 
@@ -77,7 +110,7 @@
             while (queue.Count > 0)
             {
                 var node = queue.Dequeue();
-                if(node != null)
+                if (node != null)
                 {
                     values.Add(node.val);
                     if (node.left != null)
