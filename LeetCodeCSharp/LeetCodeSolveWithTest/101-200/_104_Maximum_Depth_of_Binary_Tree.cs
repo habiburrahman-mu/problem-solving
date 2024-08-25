@@ -15,15 +15,21 @@
             }
         }
 
-        private int MaxDepth(TreeNode root)
+        private int MaxDepth(TreeNode node)
         {
-            return 0;
+            if(node == null) return 0;
+
+            var leftMaxDepth = MaxDepth(node.left);
+            var rightMaxDepth = MaxDepth(node.right);
+
+            return Math.Max(leftMaxDepth, rightMaxDepth) + 1; // +1 for current node;
         }
 
         public static IEnumerable<object[]> GetTestCases()
         {
             yield return new object[] { new int?[] { 3, 9, 20, null, null, 15, 7 }, 3 };
             yield return new object[] { new int?[] { 1, null, 2 }, 2 };
+            yield return new object[] { new int?[] { }, 0 };
         }
 
         [Theory]
@@ -43,7 +49,7 @@
 
         private static TreeNode? CreateTreeFromLevelOrder(int?[] array, int startIndex = 0)
         {
-            if (array.Length == 0 && array[startIndex].HasValue == false)
+            if (array.Length == 0 || array[startIndex].HasValue == false)
                 return null;
             var value = array[startIndex];
             if (value == null)
