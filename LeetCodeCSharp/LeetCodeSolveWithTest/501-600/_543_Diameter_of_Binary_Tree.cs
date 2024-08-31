@@ -23,21 +23,21 @@ namespace LeetCodeSolveWithTest._501_600
 
         private int DiameterOfBinaryTree(TreeNode root)
         {
-            if (root == null) return 0;
-
-            var leftTreeDiameter = DiameterOfBinaryTree(root.left);
-            var rightTreeDiameter = DiameterOfBinaryTree(root.right);
-            var diameterWithNode = HeightOfBinaryTree(root.left) + HeightOfBinaryTree(root.right);
-            return Math.Max(diameterWithNode, Math.Max(leftTreeDiameter, rightTreeDiameter));
+            return DiameterAndHeight(root).diameter;
         }
 
-        private int HeightOfBinaryTree(TreeNode node)
+        private (int diameter, int height) DiameterAndHeight(TreeNode root)
         {
-            if (node == null) return 0;
+            if (root == null) return (0, 0);
 
-            var leftTreeHeight = HeightOfBinaryTree(node.left);
-            var rightTreeHeight = HeightOfBinaryTree(node.right);
-            return Math.Max(leftTreeHeight, rightTreeHeight) + 1;
+            var (leftTreeDiameter, leftTreeHeight) = DiameterAndHeight(root.left);
+            var (rightTreeDiameter, rightTreeHeight) = DiameterAndHeight(root.right);
+            var diameterWithNode = leftTreeHeight + rightTreeHeight;
+
+            var height = Math.Max(leftTreeHeight, rightTreeHeight) + 1;
+            var diameter = Math.Max(diameterWithNode, Math.Max(leftTreeDiameter, rightTreeDiameter));
+
+            return (diameter, height);
         }
 
         public static IEnumerable<object[]> GetTestCases()
