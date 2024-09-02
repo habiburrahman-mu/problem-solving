@@ -61,4 +61,6 @@ public int DiameterOfBinaryTree(TreeNode root)
 
 - The problem with the previous solution was that it was calculating the height repeatedly. Just return the height and it will minimize the overhead.
 
-**Time Complexity:** $O(N)$ $N$ = Number of nodes
+**Time Complexity:** $O(N)$, $N$ = Number of nodes
+
+**Space Complexity:** $O(H)$, $H$ = Height of the tree which may the number of nodes due to skewed tree height.
