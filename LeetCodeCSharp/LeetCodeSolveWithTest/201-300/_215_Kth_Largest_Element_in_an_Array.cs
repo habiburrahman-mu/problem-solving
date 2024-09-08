@@ -4,13 +4,13 @@
     {
         public int FindKthLargest(int[] nums, int k)
         {
-            PriorityQueue<int, int> priorityQueue = new(new MaxComparer());
+            PriorityQueue<int, int> priorityQueue = new();
             for (int i = 0; i < nums.Length; i++)
-                priorityQueue.Enqueue(nums[i], nums[i]);
+                priorityQueue.Enqueue(nums[i], -nums[i]); // for descending sort
 
-            int stoppingLength = priorityQueue.Count - (k-1);
-            while(priorityQueue.Count > stoppingLength)
+            for (int i = 0; i < k - 1; i++)
                 priorityQueue.Dequeue();
+
             return priorityQueue.Dequeue();
         }
 
@@ -28,10 +28,5 @@
             // Assert
             Assert.Equal(expected, result);
         }
-    }
-
-    public class MaxComparer : IComparer<int>
-    {
-        public int Compare(int x, int y) => y.CompareTo(x);
     }
 }
