@@ -1,4 +1,4 @@
-# 912. [Sort an Array](https://leetcode.com/problems/diameter-of-binary-tree)
+# 912. [Sort an Array](https://leetcode.com/problems/sort-an-array)
 
 ## Approach 1
 
