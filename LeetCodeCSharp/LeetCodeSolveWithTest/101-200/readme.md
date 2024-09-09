@@ -100,3 +100,46 @@ private (int height, bool isBalanced) HeightAndBalanceStatus(TreeNode root)
 
 - **Time Complexity**: O(n) (linear time, as each node is visited only once)
 - **Space Complexity**: O(n) (due to the recursion stack in the worst case)
+
+# 215. [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array)
+
+## Intuition
+
+The idea is to find the Kth largest element without fully sorting the array. Using a priority queue (min-heap or max-heap) allows us to efficiently track the largest elements in the array without needing to sort everything.
+
+## Approach
+
+1. Use a **priority queue** to simulate a max-heap by negating the values. This ensures that the largest values in the array are dequeued first.
+2. Iterate through the array, inserting each element into the priority queue.
+3. After inserting all the elements, remove the largest `k-1` elements. The next element dequeued will be the Kth largest.
+4. Return the Kth largest element, which is the result of the final dequeue.
+
+## Code
+
+```csharp
+public class Solution {
+    public int FindKthLargest(int[] nums, int k)
+    {
+        // Create a priority queue to track the largest elements
+        PriorityQueue<int, int> priorityQueue = new();
+
+        // Insert all elements into the priority queue
+        for (int i = 0; i < nums.Length; i++)
+            priorityQueue.Enqueue(nums[i], -nums[i]); // for descending sort
+
+        // Remove the largest k-1 elements
+        for (int i = 0; i < k - 1; i++)
+            priorityQueue.Dequeue();
+
+        // Return the kth largest element
+        return priorityQueue.Dequeue();
+    }
+}
+```
+
+## Complexity
+
+- **Time complexity**:
+    The time complexity is $O(n \log n)$, where $n$ is the number of elements in the array. This is because we enqueue all `n` elements, each with a log time complexity due to the heap operations. Additionally, we perform `k` dequeue operations, each of which takes $O(\log n)$, but the dominant factor is still $O(n \log n)$ from the enqueuing.
+- **Space complexity**:
+    The space complexity is $O(n)$ because the priority queue stores all `n` elements of the array.
