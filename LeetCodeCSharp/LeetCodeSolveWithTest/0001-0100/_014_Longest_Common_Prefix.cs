@@ -6,40 +6,73 @@ using System.Threading.Tasks;
 
 namespace LeetCodeSolveWithTest._0001_0100
 {
+    public class TrieNode
+    {
+        public TrieNode?[] Child;
+        public int ChildCount;
+        public bool WordEnd;
+
+        public TrieNode()
+        {
+            Child = new TrieNode?[26];
+            ChildCount = 0;
+            WordEnd = false;
+        }
+    }
+
     public class _014_Longest_Common_Prefix
     {
+        private readonly TrieNode root;
+        public _014_Longest_Common_Prefix()
+        {
+            root = new TrieNode();
+        }
+
+        private void InsertWord(string word)
+        {
+            var current = root;
+
+            foreach (char ch in word)
+            {
+                int index = ch - 'a';
+                if (current!.Child[index] == null)
+                {
+                    current.Child[index] = new TrieNode();
+                    current.ChildCount++;
+                }
+                current = current.Child[index];
+            }
+
+            current.WordEnd = true;
+        }
+
         public string LongestCommonPrefix(string[] strs)
         {
-            var result = string.Empty;
+            if (strs.Length == 0) return "";
+            if (strs.Length == 1) return strs[0];
+            StringBuilder stringBuilder = new StringBuilder();
 
-            if (strs.Length < 2)
+            foreach (string str in strs)
+                InsertWord(str);
+
+            var first = strs[0];
+            var current = root;
+            foreach (char ch in first)
             {
-                result = strs.Length > 0 ? strs[0] : result;
-                return result;
+                int index = ch - 'a';
+                if (current!.ChildCount > 1 || current.WordEnd) 
+                    break;
+                stringBuilder.Append(ch);
+                current = current!.Child[index];
             }
 
-
-            string first = strs[0];
-            for (int i = 0; i < first.Length; i++)
-            {
-                char currentCh = first[i];
-
-                for (int j = 1; j < strs.Length; j++)
-                {
-                    string comparingWord = strs[j];
-                    if (i == comparingWord.Length || currentCh != comparingWord[i])
-                        return result;
-                }
-
-                result += currentCh;
-            }
-
-            return result;
+            return stringBuilder.ToString();
         }
 
         [Theory]
         [InlineData((string[])["flower", "flow", "flight"], "fl")]
         [InlineData((string[])["dog", "racecar", "car"], "")]
+        [InlineData((string[])["ab", "a"], "a")]
         public void _014_Longest_Common_Prefix_Test(string[] strs, string expected)
         {
             // Arrange
