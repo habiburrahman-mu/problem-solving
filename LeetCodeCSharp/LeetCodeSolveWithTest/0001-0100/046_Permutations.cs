@@ -10,7 +10,9 @@ namespace LeetCodeSolveWithTest._0001_0100
     {
         private IList<IList<int>> Permute(int[] nums)
         {
-            return GetAllPermutations(nums, 0);
+            var result = new List<IList<int>>();
+            GetAllPermutations2(nums, 0, result);
+            return result;
         }
 
         private IList<IList<int>> GetAllPermutations(int[] nums, int start)
@@ -33,6 +35,24 @@ namespace LeetCodeSolveWithTest._0001_0100
                 }
             }
             return permutationList.ToArray();
+        }
+
+        private void GetAllPermutations2(int[] nums, int start, IList<IList<int>> result)
+        {
+
+            if(start == nums.Length)
+            {
+                var list = nums.ToArray();
+                result.Add(list);
+                return;
+            }
+
+            for (int i = start; i < nums.Length; i++)
+            {
+                (nums[i], nums[start]) = (nums[start], nums[i]);
+                GetAllPermutations2(nums, start + 1, result);
+                (nums[i], nums[start]) = (nums[start], nums[i]);
+            }
         }
 
         public static IEnumerable<object[]> PermutationTestData()
