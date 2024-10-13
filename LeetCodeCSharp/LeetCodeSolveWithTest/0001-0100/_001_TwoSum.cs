@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace LeetCodeSolveWithTest
+namespace LeetCodeSolveWithTest._0001_0100
 {
     public class _001_TwoSum
     {
