@@ -10,7 +10,29 @@ namespace LeetCodeSolveWithTest._0001_0100
     {
         private IList<IList<int>> Permute(int[] nums)
         {
-            return [[1]];
+            return GetAllPermutations(nums, 0);
+        }
+
+        private IList<IList<int>> GetAllPermutations(int[] nums, int start)
+        {
+            if (start == nums.Length - 1)
+            {
+                return [[nums[start]]];
+            }
+
+            var permutationList = new List<List<int>>();
+            var currentElement = nums[start];
+            var subPermutionList = GetAllPermutations(nums, start + 1);
+            foreach (var permutation in subPermutionList)
+            {
+                for (int index = 0; index < permutation.Count + 1; index++)
+                {
+                    var newPermutation = permutation.ToList();
+                    newPermutation.Insert(index, currentElement);
+                    permutationList.Add(newPermutation);
+                }
+            }
+            return permutationList.ToArray();
         }
 
         public static IEnumerable<object[]> PermutationTestData()
@@ -51,7 +73,6 @@ namespace LeetCodeSolveWithTest._0001_0100
 
         [Theory]
         [MemberData(nameof(PermutationTestData))]
-        //[InlineData((int[])[1, 2, 3], new[] { new int[] { 1, 2, 3 } })]
         public void _046_Permutations_Test(int[] nums, int[][] expected)
         {
             // Arrange
@@ -60,8 +81,11 @@ namespace LeetCodeSolveWithTest._0001_0100
             // Act
             var result = sut(nums);
 
+            var expectedSet = new HashSet<string>(expected.Select(x => string.Join(",", x)));
+            var resultSet = new HashSet<string>(result.Select(x => string.Join(",", x)));
+
             // Assert
-            Assert.Equal(expected, result);
+            Assert.Equal(expectedSet, resultSet);
         }
     }
 }
