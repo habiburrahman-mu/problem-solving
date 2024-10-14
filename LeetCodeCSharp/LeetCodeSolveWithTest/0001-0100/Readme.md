@@ -1,6 +1,8 @@
-# 14. [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix)
+# 001 - 100
 
-## Intuition
+## 14. [Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix)
+
+### Intuition
 
 The problem requires finding the longest common prefix from an array of strings. A common strategy involves comparing characters at the same position across all strings, stopping when a mismatch occurs. Alternatively, a Trie (Prefix Tree) can be employed, where the common prefix can be found by traversing the tree as long as there is only one path downwards.
 
@@ -161,9 +163,119 @@ public class Solution {
 
 ```
 
-# 100. [Same Tree](https://leetcode.com/problems/same-tree)
+---
 
-## Intuition
+## 46. [Permutations](https://leetcode.com/problems/permutations)
+
+### Intuition
+
+The problem requires generating all permutations of a list of integers. We can approach this by recursively building permutations, either by inserting elements in all positions of smaller permutations or by swapping elements in place.
+
+### Approaches
+
+#### Approach 1: Recursively Inserting Elements
+
+In this approach, we recursively generate permutations of the remaining elements starting from the second element. Once we have all permutations for the remaining elements, we insert the current element at every possible position in each of those smaller permutations. This generates all permutations including the current element.
+
+#### Code
+
+```csharp
+public class Solution {
+    public IList<IList<int>> Permute(int[] nums)
+    {
+        return GetAllPermutations(nums, 0);
+    }
+
+    private IList<IList<int>> GetAllPermutations(int[] nums, int start)
+    {
+        if (start == nums.Length - 1)
+        {
+            return new List<IList<int>> { new List<int> { nums[start] } };
+        }
+
+        var permutationList = new List<IList<int>>();
+        var currentElement = nums[start];
+        var subPermutationList = GetAllPermutations(nums, start + 1);
+
+        foreach (var permutation in subPermutationList)
+        {
+            for (int index = 0; index <= permutation.Count; index++)
+            {
+                var newPermutation = permutation.ToList();
+                newPermutation.Insert(index, currentElement);
+                permutationList.Add(newPermutation);
+            }
+        }
+        return permutationList;
+    }
+}
+
+```
+
+#### Complexity Analysis
+
+- **Time complexity:**
+    
+    The time complexity for this approach is $O(N! \cdot N^2)$. Here's the breakdown:
+    
+    - There are $N!$ permutations in total.
+    - For each permutation, you need to insert the current element at every possible position in all permutations of the remaining $N-1$ elements.
+    - For each insertion, we take a copy of the previous permutation (which takes $O(N)$) and insert the element into all positions (which can take up to $O(N)$ for each permutation).
+    - Therefore, the overall time complexity is $O(N! \cdot N^2)$, accounting for both the $O(N!)$ recursive calls and the $O(N^2)$ work done in each call.
+- **Space complexity:**
+    
+    The space complexity remains $O(N! \cdot N)$. This is because we store $N!$ permutations, each of size $N$, and the recursion stack has a depth of $O(N)$.
+
+---
+
+#### Approach 2: Backtracking with Swapping
+
+In this approach, we swap elements in the array to create permutations in-place. By swapping the current element with every element that comes after it, we generate all permutations recursively. After processing each permutation, we swap the elements back to restore the original order (backtracking).
+
+##### Code
+
+```csharp
+public class Solution {
+    public IList<IList<int>> Permute(int[] nums)
+    {
+        var result = new List<IList<int>>();
+        GetAllPermutations2(nums, 0, result);
+        return result;
+    }
+
+    private void GetAllPermutations2(int[] nums, int start, IList<IList<int>> result)
+    {
+        if (start == nums.Length)
+        {
+            var list = nums.ToArray();
+            result.Add(list);
+            return;
+        }
+
+        for (int i = start; i < nums.Length; i++)
+        {
+            (nums[i], nums[start]) = (nums[start], nums[i]);
+            GetAllPermutations2(nums, start + 1, result);
+            (nums[i], nums[start]) = (nums[start], nums[i]);  // backtrack
+        }
+    }
+}
+
+```
+
+##### Complexity Analysis
+
+- **Time complexity:**
+    
+    As mentioned earlier, the time complexity for this approach is $O(N!)$ because there are $N!$ permutations to generate, and each recursive call performs constant-time operations (swapping and backtracking).
+    
+- **Space complexity:**
+    
+    The space complexity is $O(N! \cdot N)$, dominated by the storage of $N!$ permutations, each of size $N$. The recursion stack depth is $O(N)$, which is negligible compared to the space for storing the permutations.
+
+## 100. [Same Tree](https://leetcode.com/problems/same-tree)
+
+### Intuition
 
 The problem is asking whether two binary trees are identical. Two trees are considered identical if they have the same structure and their corresponding nodes have the same values. The first thought that comes to mind is to traverse both trees simultaneously and compare each node. If all corresponding nodes in both trees are identical, the trees are the same; otherwise, they are not.
 

@@ -25,6 +25,7 @@ namespace LeetCodeSolveWithTest._0001_0100
             var permutationList = new List<List<int>>();
             var currentElement = nums[start];
             var subPermutionList = GetAllPermutations(nums, start + 1);
+
             foreach (var permutation in subPermutionList)
             {
                 for (int index = 0; index < permutation.Count + 1; index++)
@@ -39,7 +40,6 @@ namespace LeetCodeSolveWithTest._0001_0100
 
         private void GetAllPermutations2(int[] nums, int start, IList<IList<int>> result)
         {
-
             if(start == nums.Length)
             {
                 var list = nums.ToArray();
