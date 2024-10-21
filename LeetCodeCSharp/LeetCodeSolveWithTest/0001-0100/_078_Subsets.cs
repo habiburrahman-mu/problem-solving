@@ -10,6 +10,11 @@ namespace LeetCodeSolveWithTest._0001_0100
     {
         public IList<IList<int>> Subsets(int[] nums)
         {
+            return Subset2(nums);
+        }
+
+        private IList<IList<int>> Subset1(int[] nums)
+        {
             var solutionList = new List<IList<int>> { (int[])[] };
 
             foreach (int number in nums)
@@ -25,6 +30,29 @@ namespace LeetCodeSolveWithTest._0001_0100
             }
             return solutionList;
         }
+
+        private IList<IList<int>> Subset2(int[] nums)
+        {
+            List<IList<int>> result = new List<IList<int>>();
+            List<int> current = new List<int>();
+            BackTrack(nums, 0, nums.Length, current, result);
+
+            return result;
+        }
+
+        private void BackTrack(int[] nums, int start, int len, List<int> current, IList<IList<int>> result)
+        {
+            result.Add(current.ToArray());
+
+            for (int i = start; i < len; i++)
+            {
+                current.Add(nums[i]);
+                BackTrack(nums, i + 1, len, current, result);
+                current.RemoveAt(current.Count - 1);
+            }
+        }
+
+
 
         public static IEnumerable<object[]> SubsetsTestData()
         {
@@ -55,6 +83,15 @@ namespace LeetCodeSolveWithTest._0001_0100
 
             // Act
             var result = sut(nums);
+            expected = expected
+                .OrderBy(list => list.Count())
+                .ThenBy(list => string.Join(",", list))
+                .ToArray();
+
+            result = result
+                .OrderBy(list => list.Count())
+                .ThenBy(list => string.Join(",", list))
+                .ToList();
 
             // Assert
             Assert.Equal(expected, result);

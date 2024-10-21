@@ -273,6 +273,102 @@ public class Solution {
     
     The space complexity is $O(N! \cdot N)$, dominated by the storage of $N!$ permutations, each of size $N$. The recursion stack depth is $O(N)$, which is negligible compared to the space for storing the permutations.
 
+---
+
+## 78. [Subsets](https://leetcode.com/problems/subsets)
+
+### 1. **Cascading Approach:**
+
+The **Cascading** approach progressively builds the list of subsets by adding each element of the input array (`nums`) to existing subsets. Here's how it works:
+
+- **Initial Setup**: The algorithm starts with an empty subset (`solutionList`) that initially contains one subset: the empty list `[]`.
+- **Iteration**: It iterates through each number in the input array `nums`. For every number, it creates new subsets by adding the current number to each of the existing subsets in `solutionList`.
+- **Local List**: A temporary list (`localSolutionList`) is used to hold these new subsets during each iteration.
+- **Extend Solutions**: After processing all existing subsets for the current number, the `localSolutionList` (which contains all newly generated subsets) is appended to the main `solutionList`.
+- **Result**: Once all numbers are processed, `solutionList` contains all possible subsets of the input array.
+
+Here is the code implementation:
+
+```csharp
+private IList<IList<int>> Subsets(int[] nums)
+{
+    var solutionList = new List<IList<int>> { new List<int>() };  // Start with the empty set
+
+    foreach (int number in nums)
+    {
+        List<IList<int>> localSolutionList = new();
+        foreach (var solution in solutionList)
+        {
+            var newSolution = solution.ToList();
+            newSolution.Add(number);
+            localSolutionList.Add(newSolution);
+        }
+        solutionList.AddRange(localSolutionList);
+    }
+    return solutionList;
+}
+
+```
+
+**Time Complexity**:
+
+- In each iteration, for every new number, we generate new subsets based on the current size of the `solutionList`. Initially, there is 1 subset (the empty set), then 2, then 4, and so on.
+- The number of subsets at each step doubles, and generating a subset involves copying an existing subset, which takes $O(k)$ time, where $k$ is the length of the subset.
+- Therefore, the time complexity is $O(N * 2^N)$, where `N` is the number of elements in the input array `nums`.
+
+**Space Complexity**:
+
+- The space complexity is $O(N * 2^N)$, as we are storing all the subsets, and there are $2^N$ subsets in total, each of size up to `N`.
+
+---
+
+### 2. **Backtracking Approach:**
+
+The **Backtracking** approach is a recursive method that explores all possible subsets by making choices and undoing them (backtracking) when necessary. Here's how it works:
+
+- **Initial Call**: The algorithm starts by calling the recursive function `BackTrack` with the initial values: an empty list (`current`), the starting index (`start`), and the full length of the input array.
+- **Recursive Exploration**: At each recursive step, the current subset (`current`) is added to the `result` list. Then, the function tries adding each number in the array (starting from the current index `start`) to the `current` subset.
+- **Backtracking**: After adding a number, it recurses deeper to explore further possible subsets. When a recursion finishes, the function **backtracks** by removing the last added number from the subset, ensuring all combinations are explored.
+- **Result**: The base case is when the recursion has explored all subsets for the current state, at which point it returns back up the call stack. This way, the `result` list eventually contains all possible subsets.
+
+Here is the code implementation:
+
+```csharp
+private IList<IList<int>> Subsets(int[] nums)
+{
+    List<IList<int>> result = new List<IList<int>>();
+    List<int> current = new List<int>();
+    BackTrack(nums, 0, nums.Length, current, result);
+    return result;
+}
+
+private void BackTrack(int[] nums, int start, int len, List<int> current, IList<IList<int>> result)
+{
+    result.Add(current.ToArray());  // Add the current subset to the result list
+
+    for (int i = start; i < len; i++)
+    {
+		    // Choose the current element
+        current.Add(nums[i]); 
+        // Recurse to explore further subsets
+        BackTrack(nums, i + 1, len, current, result);
+        // Backtrack by removing the last element
+        current.RemoveAt(current.Count - 1);
+    }
+}
+
+```
+
+**Time Complexity**:
+
+- The time complexity is $O(N * 2^N)$. Here's why:
+    - There are $2^N$ possible subsets (since each element is either included or not).
+    - For each subset, we make a copy of the `current` list, which can take up to $O(N)$ time. Therefore, the total time complexity is $O(N * 2^N)$.
+
+**Space Complexity**:
+
+- The space complexity is also $O(N * 2^N)$, as we store all $2^N$ subsets, each of which can be up to size `N`. Additionally, the recursion call stack can go as deep as `N` levels, so the overall space complexity is dominated by the result storage.
+
 ## 100. [Same Tree](https://leetcode.com/problems/same-tree)
 
 ### Intuition
