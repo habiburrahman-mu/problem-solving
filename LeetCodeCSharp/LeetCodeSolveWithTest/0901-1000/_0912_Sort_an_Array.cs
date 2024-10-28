@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LeetCodeSolveWithTest._901_1000
 {
-    public class _912_Sort_an_Array
+    public class _0912_Sort_an_Array
     {
         private int[] SortArray(int[] nums)
         {
