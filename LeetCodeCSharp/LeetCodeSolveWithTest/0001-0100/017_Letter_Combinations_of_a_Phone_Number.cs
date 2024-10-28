@@ -43,9 +43,7 @@ namespace LeetCodeSolveWithTest._0001_0100
 
             for (int i = 0; i < characters.Count; i++)
             {
-                currentCombination += characters[i];
-                BackTrack(digits, index + 1, result, currentCombination);
-                currentCombination = currentCombination.Substring(0, currentCombination.Length - 1);
+                BackTrack(digits, index + 1, result, currentCombination + characters[i]);
             }
         }
 
