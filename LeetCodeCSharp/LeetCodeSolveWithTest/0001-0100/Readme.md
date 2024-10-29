@@ -165,6 +165,64 @@ public class Solution {
 
 ---
 
+## 39. [Combination Sum](https://leetcode.com/problems/combination-sum)
+
+### Intuition
+
+The problem involves finding all possible combinations of numbers from the `candidates` array that sum up to the given `target`. Since the same number can be used multiple times, a backtracking approach seems suitable for exploring all potential combinations.
+
+### Approach
+
+- **Backtracking**: We utilize a backtracking technique to explore combinations. We maintain a `currentCombination` list to build combinations incrementally.
+- **Base Cases**: If the `currentSum` equals the `target`, we add a copy of `currentCombination` to the `result`. If `currentSum` exceeds `target`, we return to avoid unnecessary calculations.
+- **Recursion**: We iterate through the `candidates`, adding each candidate to the `currentCombination`, and recursively call the `BackTrack` method with the updated sum and starting index.
+- **Backtrack**: After exploring one path, we remove the last added candidate to backtrack and try the next candidate.
+
+### Code
+
+```csharp
+public class Solution {
+    public IList<IList<int>> CombinationSum(int[] candidates, int target)
+    {
+        List<IList<int>> result = new();
+        List<int> currentCombination = new();
+        BackTrack(candidates, 0, target, 0, currentCombination, result);
+        return result;
+    }
+
+    private static void BackTrack(
+        int[] candidates, 
+        int start, 
+        int target, 
+        int currentSum, 
+        List<int> currentCombination, 
+        List<IList<int>> result)
+    {
+        if (currentSum == target)
+        {
+            result.Add(new List<int>(currentCombination));
+            return;
+        }
+
+        if (currentSum > target) return;
+
+        for (int i = start; i < candidates.Length; i++)
+        {
+            currentCombination.Add(candidates[i]);
+            BackTrack(candidates, i, target, currentSum + candidates[i], currentCombination, result);
+            currentCombination.RemoveAt(currentCombination.Count - 1);
+        }
+    }
+}
+```
+
+### Complexity
+
+- **Time complexity**:
+The time complexity is not straightforward to define as it depends on the number of valid combinations, but it can be considered as $O(2^{N})$ in the worst case due to the exponential growth of possible combinations.
+- **Space complexity**:
+The space complexity is $O(N)$ for the recursion stack and the storage of the result, where $N$ is the length of the candidates array.
+
 ## 46. [Permutations](https://leetcode.com/problems/permutations)
 
 ### Intuition
