@@ -165,6 +165,77 @@ public class Solution {
 
 ---
 
+## 17. [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number)
+
+### Intuition
+
+The problem requires generating all possible letter combinations that can correspond to a given phone number, where each digit maps to a set of letters. The task can be approached using backtracking to explore all combinations systematically.
+
+### Approach
+
+- **Mapping Digits to Letters**: We define a dictionary that maps each digit (from 2 to 9) to its corresponding letters.
+- **Backtracking**: A recursive method (`BackTrack`) is used to build combinations:
+    - If the length of the current combination equals the length of the input digits, we add it to the result list.
+    - For each digit, we iterate over its mapped characters, appending one character to the current combination and recursively calling the method for the next digit.
+    - After exploring a character, we remove it to backtrack and try the next character.
+
+### Code
+
+```csharp
+public class Solution {
+    private Dictionary<char, List<string>> _map = new()
+    {
+        {'2', new() {"a", "b", "c"}},
+        {'3', new() {"d", "e", "f"}},
+        {'4', new() {"g", "h", "i"}},
+        {'5', new() {"j", "k", "l"}},
+        {'6', new() {"m", "n", "o"}},
+        {'7', new() {"p", "q", "r", "s"}},
+        {'8', new() {"t", "u", "v"}},
+        {'9', new() {"w", "x", "y", "z"}},
+    };
+
+    public IList<string> LetterCombinations(string digits)
+    {
+        var result = new List<string>();
+        if (digits.Length > 0)
+        {
+            BackTrack(digits, 0, result, "");
+        }
+        return result;
+    }
+
+    private void BackTrack(string digits, 
+        int index, 
+        List<string> result, 
+        string currentCombination)
+    {
+        if (currentCombination.Length == digits.Length)
+        {
+            result.Add(currentCombination);
+            return;
+        }
+
+        var characters = _map[digits[index]];
+
+        for (int i = 0; i < characters.Count; i++)
+        {
+            currentCombination += characters[i];
+            BackTrack(digits, index + 1, result, currentCombination);
+            currentCombination = currentCombination.Substring(0, currentCombination.Length - 1);
+        }
+    }
+}
+
+```
+
+### Complexity
+
+- **Time complexity**:
+The time complexity is $O(4^N)$ in the worst case, where $N$ is the length of the input string, since the maximum number of letters per digit is 4 (for digit 7 and 9).
+- **Space complexity**:
+The space complexity is $O(N)$ for the recursion stack and the storage of the result.
+
 ## 39. [Combination Sum](https://leetcode.com/problems/combination-sum)
 
 ### Intuition
